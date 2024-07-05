@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Content</title>
+</head>
+<body>
+    <h1>Generated Content</h1>
+    <div id="content-container">
+        {% for content in contents %}
+            <div class="content-item">
+                <h2>{{ content.title }}</h2>
+                <p>{{ content.description }}</p>
+                <p>{{ content.summary }}</p>
+                <p>Keywords: {{ content.keywords | join(', ') }}</p>
+                <img src="{{ content.image }}" alt="Image">
+                <p><a href="{{ content.url }}">Read more</a></p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
