@@ -6,21 +6,107 @@
     <title>Explore</title>
     <link rel="stylesheet" href="/my-app/src/App.css">
     <link rel="stylesheet" href="/my-app/src/con1style.css">
+    <style>
+     
+/* Global Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.App {
+  max-width: 100%; /* updated to take full width */
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+#content-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.content-card {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex: 0 0 300px; /* updated to set max width for flex content box */
+  text-align: center;
+}
+
+.content-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.content-image {
+  width: auto;
+  height: auto ;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.content-description,
+.content-summary,
+.content-keywords,
+.content-url {
+  margin-bottom: 10px;
+}
+
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.scroll-to-top-btn:hover {
+  background-color: #444;
+}
+    </style>
 </head>
 <body>
     <div class="App">
         <header>
             <h1>Explore</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-                    <li>
-                        <a href="/India_news">India News</a>
-                    </li>
-                </ul>
-            </nav>
+            
         </header>
         <main>
             <!-- Content of the Home page would go here -->
