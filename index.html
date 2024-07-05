@@ -1,14 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My App</title>
-    <link rel="stylesheet" href="App.css" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="index.js"></script>
-    <h1>hello git</h1>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore</title>
+    <link rel="stylesheet" href="/my-app/src/App.css">
+    <link rel="stylesheet" href="/my-app/src/con1style.css">
+</head>
+<body>
+    <div class="App">
+        <header>
+            <h1>Explore</h1>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/India_news">India News</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <!-- Content of the Home page would go here -->
+            <div id="content-display" class="App">
+                <!-- Placeholder for ContentDisplay component -->
+                <div id="infinite-scroll">
+                    <!-- Data will be dynamically loaded here -->
+                    <!-- Sample static data -->
+                    <div class="content-card">
+                        <h2 class="content-title">Sample Title 1</h2>
+                        <p class="content-description">Sample description for content 1</p>
+                        <img class="content-image" src="sample_image1.jpg" alt="Sample Title 1">
+                        <p class="content-summary">Sample summary for content 1</p>
+                        <p class="content-keywords">Keywords: sample, content, example</p>
+                        <p class="content-url">URL: <a href="https://example.com/1" target="_blank" rel="noopener noreferrer">https://example.com/1</a></p>
+                    </div>
+                    <div class="content-card">
+                        <h2 class="content-title">Sample Title 2</h2>
+                        <p class="content-description">Sample description for content 2</p>
+                        <img class="content-image" src="sample_image2.jpg" alt="Sample Title 2">
+                        <p class="content-summary">Sample summary for content 2</p>
+                        <p class="content-keywords">Keywords: sample, content, example</p>
+                        <p class="content-url">URL: <a href="https://example.com/2" target="_blank" rel="noopener noreferrer">https://example.com/2</a></p>
+                    </div>
+                    <!-- End of sample static data -->
+                </div>
+                <button class="scroll-to-top-btn" onclick="scrollToTop()">Scroll to Top</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // JavaScript to handle infinite scroll and data fetching
+        let page = 1;
+        let hasMore = true;
+        let loading = false;
+
+        async function fetchMoreData() {
+            if (loading) return;
+            loading = true;
+            try {
+                const response = await fetch(`http://localhost:5000/generate_content?page=${page}&page_size=10`);
+                const data = await response.json();
+                const container = document.getElementById('infinite-scroll');
+                
+                if (data.length === 0) {
+                    hasMore = false;
+                } else {
+                    page += 1;
+                    data.forEach(content => {
+                        const contentCard = document.createElement('div');
+                        contentCard.className = 'content-card';
+
+                        const title = document.createElement('h2');
+                        title.className = 'content-title';
+                        title.textContent = content.title;
+                        contentCard.appendChild(title);
+
+                        const description = document.createElement('p');
+                        description.className = 'content-description';
+                        description.textContent = content.description;
+                        contentCard.appendChild(description);
+
+                        if (content.image) {
+                            const image = document.createElement('img');
+                            image.className = 'content-image';
+                            image.src = content.image;
+                            image.alt = content.title;
+                            contentCard.appendChild(image);
+                        }
+
+                        const summary = document.createElement('p');
+                        summary.className = 'content-summary';
+                        summary.textContent = content.summary;
+                        contentCard.appendChild(summary);
+
+                        const keywords = document.createElement('p');
+                        keywords.className = 'content-keywords';
+                        keywords.textContent = `Keywords: ${content.keywords.join(', ')}`;
+                        contentCard.appendChild(keywords);
+
+                        const url = document.createElement('p');
+                        url.className = 'content-url';
+                        const urlLink = document.createElement('a');
+                        urlLink.href = content.url;
+                        urlLink.target = '_blank';
+                        urlLink.rel = 'noopener noreferrer';
+                        urlLink.textContent = content.url;
+                        url.appendChild(urlLink);
+                        contentCard.appendChild(url);
+
+                        container.appendChild(contentCard);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                hasMore = false;
+            }
+            loading = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasMore) {
+                fetchMoreData();
+            }
+        });
+
+        // Initial data fetch
+        fetchMoreData();
+    </script>
+</body>
 </html>
