@@ -1,5 +1,5 @@
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,  render_template
 import requests
 from bs4 import BeautifulSoup
 import nltk
@@ -117,6 +117,28 @@ def generate_content():
 
     return jsonify(contents)
 
+@app.route('/')
+def fetch_html():
+    page = 1  # Default page number
+    page_size = 10  # Default page size
+
+    def fetch_content():
+        random_url = get_random_wikipedia_url()
+        title, description, main_text, image = scrap_wikipedia(random_url)
+        summary, keywords = summarize_text(main_text)
+        return {
+            'title': title,
+            'description': description,
+            'summary': summary,
+            'keywords': keywords,
+            'image': image,
+            'url': random_url
+        }
+
+    with ThreadPoolExecutor(max_workers=page_size) as executor:
+        contents = list(executor.map(lambda _: fetch_content(), range(page_size)))
+
+    return render_template('index.html', contents=contents)
 
 @app.route('/fetch_news', methods=['GET'])
 def fetch_news():
